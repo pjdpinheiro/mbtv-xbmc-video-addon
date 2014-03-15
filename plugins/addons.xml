@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<addons>
+<addon id="plugin.video.mbtv"
+       name="Mercedes-Benz TV"
+       version="0.0.01"
+       provider-name="papinhe">
+    <requires>
+        <import addon="xbmc.python" version="2.1.0"/>
+    </requires>
+    <extension point="xbmc.python.pluginsource" library="addon.py">
+        <provides>video</provides>
+    </extension>
+    <extension point="xbmc.addon.metadata">
+        <summary>Mercedes-Benz TV</summary>
+        <description>Watch Mercedes-Benz TV website Videos</description>
+        <platform>all</platform>
+		<email>pjdpinheiro@gmail.com</email>
+    </extension>
+</addon>
+
+<addon id="repository.mbtv.xbmc" name="Repository mbtv" version="1.0.0" provider-name="Papinhe">
+	<extension point="xbmc.addon.repository" name="Repository mbtv">
+		<info compressed="false">http://mbtv-xbmc-video-addon.googlecode.com/svn/trunk/plugins/addons.xml</info>
+		<checksum>http://mbtv-xbmc-video-addon.googlecode.com/svn/trunk/plugins/addons.xml.md5</checksum>
+		<datadir zip="false">http://mbtv-xbmc-video-addon.googlecode.com/svn/trunk/plugins/</datadir>
+	</extension>
+	<extension point="xbmc.addon.metadata">
+		<summary>Repository mbtv</summary>
+		<description>Allows to install the mbtv addon. Navigate through the videos of Mercedes-Benz TV</description>
+		<disclaimer></disclaimer>
+		<platform>all</platform>
+	</extension>
+</addon>
+</addons>

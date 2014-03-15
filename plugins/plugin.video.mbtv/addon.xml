@@ -1,0 +1,18 @@
+﻿<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<addon id="plugin.video.mbtv"
+       name="Mercedes-Benz TV"
+       version="0.0.01"
+       provider-name="papinhe">
+    <requires>
+        <import addon="xbmc.python" version="2.1.0"/> 
+    </requires>
+    <extension point="xbmc.python.pluginsource" library="addon.py">
+        <provides>video</provides>
+    </extension>
+    <extension point="xbmc.addon.metadata">
+        <summary>Mercedes-Benz TV</summary>
+        <description>Watch Mercedes-Benz TV website Videos</description>
+        <platform>all</platform>
+		<email>pjdpinheiro@gmail.com</email>
+    </extension>
+</addon>
