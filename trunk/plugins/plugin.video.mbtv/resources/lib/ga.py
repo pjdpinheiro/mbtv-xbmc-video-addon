@@ -1,6 +1,6 @@
 import xbmcgui,xbmcaddon,xbmc,xbmcplugin,time,datetime,os,re
 
-ADDON = xbmcaddon.Addon(id='plugin.video.MBTV')   
+ADDON = xbmcaddon.Addon(id='plugin.video.mbtv')   
 
 PATH = "MBTV"           #<---- PLUGIN NAME MINUS THE "plugin.video"
 UATRACK="UA-48715409-1" #<---- GOOGLE ANALYTICS UA NUMBER
