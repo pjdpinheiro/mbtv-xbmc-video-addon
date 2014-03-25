@@ -6,7 +6,6 @@ Todo
 - Acrescentar Lista de Reporter
 - Colocar os idiomas de acordo com o presente no Settings.xml
 - Permitir escolher o formato de reprodução
-- Colocar no Googlecode
 """
 
 import xbmc, xbmcaddon, xbmcplugin, xbmcgui, urllib, urllib2, sys, json, re, time, datetime, HTMLParser, os, binascii
@@ -24,6 +23,8 @@ addonfolder = selfAddon.getAddonInfo('path')
 title = selfAddon.getAddonInfo('name')
 icon = selfAddon.getAddonInfo('icon')
 ADDON = selfAddon
+menuescolha = xbmcgui.Dialog().select
+mensagemok = xbmcgui.Dialog().ok
 
 ficheiroglobal="http://www5.mercedes-benz.com/en/tv/tv.json"
 videourl="http://www5.mercedes-benz.com/media/video/%s_en_560p.mov"
@@ -140,8 +141,24 @@ def listaelementoinicial():
 def reproduzficheiro(url):
     js2=json_get(videobaseurl % url)
     GA("none",url)
-    urldovideo=js2["rendition"]["hd"]
-    urldovideoultra = urldovideo.replace("_720p", "_1080p")
+    qualidade = int(selfAddon.getSetting('format'))
+    if qualidade == 3:
+        dadosescolha=['Try 1080p','hd','sd']
+        index = menuescolha("Quality:", dadosescolha)
+        if index > -1:
+            qualidade = index
+        else:
+            return
+    if qualidade == 1:
+        urldovideoultra=js2["rendition"]["hd"]
+    elif qualidade == 2:
+        urldovideoultra=js2["rendition"]["sd"]
+    elif qualidade == 0:
+        #urldovideoultra = urldovideo.replace("_720p", "_1080p")
+        valorvideohd = urldovideo=js2["rendition"]["hd"]
+        urldovideoultra = valorvideohd.replace("_720p", "_1080p")
+    else:
+        return
     playMedia(js2["title"],js2["poster"]["embed"],urldovideoultra)
 
 
