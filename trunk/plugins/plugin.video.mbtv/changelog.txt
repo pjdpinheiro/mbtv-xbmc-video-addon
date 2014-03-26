@@ -1,0 +1,3 @@
+Changelog
+25.03.2014 v 0.0.3
+- Add functionality to video quality. Defining in settings sd, hd, try 1080 or ask for each movie. 
