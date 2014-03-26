@@ -10,7 +10,7 @@ Todo
 
 import xbmc, xbmcaddon, xbmcplugin, xbmcgui, urllib, urllib2, sys, json, re, time, datetime, HTMLParser, os, binascii
 local = xbmcaddon.Addon(id='plugin.video.mbtv')
-print os.path.join( local.getAddonInfo('path'), 'resources', 'lib' )
+#print os.path.join( local.getAddonInfo('path'), 'resources', 'lib' )
 sys.path.append( os.path.join( local.getAddonInfo('path'), 'resources', 'lib' )) 
 
 from ga import *
@@ -192,10 +192,10 @@ try:
 except:
     pass
 
-print "Mode: "+str(mode)
-print "URL: "+str(url)
-print "Name: "+str(name)
-print "Iconimage: "+str(iconimage)
+#print "Mode: "+str(mode)
+#print "URL: "+str(url)
+#print "Name: "+str(name)
+#print "Iconimage: "+str(iconimage)
 
 ###############################################################################################################
 #                                                   MODOS                                                     #
