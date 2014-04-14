@@ -1,3 +1,6 @@
 Changelog
+14.04.2014 v 0.0.4
+- Corrected list of available video qualities to play
+- Corrected video name at player
 25.03.2014 v 0.0.3
-- Add functionality to video quality. Defining in settings sd, hd, try 1080 or ask for each movie. 
+- Add functionality to video quality. Defining in settings sd, hd, try 1080 or ask for each movie
