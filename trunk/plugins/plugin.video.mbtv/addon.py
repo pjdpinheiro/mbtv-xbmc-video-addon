@@ -25,6 +25,7 @@ icon = selfAddon.getAddonInfo('icon')
 ADDON = selfAddon
 menuescolha = xbmcgui.Dialog().select
 mensagemok = xbmcgui.Dialog().ok
+mensagemprogresso = xbmcgui.DialogProgress()
 
 ficheiroglobal="http://www5.mercedes-benz.com/en/tv/tv.json"
 videourl="http://www5.mercedes-benz.com/media/video/%s_en_560p.mov"
@@ -143,7 +144,7 @@ def reproduzficheiro(url):
     GA("none",url)
     qualidade = int(selfAddon.getSetting('format'))
     if qualidade == 3:
-        dadosescolha=['Try 1080p','hd','sd']
+        dadosescolha=['Try 1080p','Highest Original (hd)','Lowest Original (sd)']
         index = menuescolha("Quality:", dadosescolha)
         if index > -1:
             qualidade = index
@@ -159,7 +160,7 @@ def reproduzficheiro(url):
         urldovideoultra = valorvideohd.replace("_720p", "_1080p")
     else:
         return
-    playMedia(js2["title"],js2["poster"]["embed"],urldovideoultra)
+    playMedia(eliminatags(js2["title"].encode('utf-8')),js2["poster"]["embed"],urldovideoultra)
 
 
 #########################################################################################################
