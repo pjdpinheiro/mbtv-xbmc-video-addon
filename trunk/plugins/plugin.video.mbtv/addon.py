@@ -86,9 +86,14 @@ def json_post(data,url):
 def addDir(name,url,mode,iconimage,pasta):
     u=sys.argv[0]+"?url="+urllib.quote_plus(url)+"&mode="+str(mode)+"&name="+urllib.quote_plus(name)
     #print u
+    if pasta == False:
+        contextmen = []
+        contextmen.append(('Information', 'XBMC.RunPlugin(%s?mode=10&url=%s)' % (sys.argv[0], url)))
     ok=True
     liz=xbmcgui.ListItem(name, iconImage="DefaultFolder.png", thumbnailImage=iconimage)
     liz.setProperty('fanart_image', addonfolder + '/fanart.jpg')
+    if pasta == False:
+        liz.addContextMenuItems(contextmen, replaceItems=True)
     ok=xbmcplugin.addDirectoryItem(handle=int(sys.argv[1]),url=u,listitem=liz,isFolder=pasta)
     return ok
 
@@ -138,6 +143,22 @@ def listaelementoinicial():
         addDir(i["en"],i["en"],3,addonfolder + '/fanart.jpg',True)
     if reporter == False:
         addDir("Reporter","Reporter",4,addonfolder + '/fanart.jpg',True)
+
+def mostralateral(url):
+    js2=json_get(videobaseurl % url)
+    textojanela=eliminatags(js2["teaser"][0]["copy"].encode('utf-8'))
+    titulojanela = eliminatags(js2["teaser"][0]["head"].encode('utf-8'))
+    duration = js2["duration"]
+    durationtext = time.strftime('%H:%M:%S', time.gmtime(duration))
+    textojanela+= ("\n\nDuration: %s" % durationtext)
+    janela_lateral(titulojanela, textojanela)
+
+def janela_lateral(label,texto):
+    xbmc.executebuiltin("ActivateWindow(10147)")
+    window = xbmcgui.Window(10147)
+    xbmc.sleep(100)
+    window.getControl(1).setLabel(label)
+    window.getControl(5).setText(texto)
 
 def reproduzficheiro(url):
     js2=json_get(videobaseurl % url)
@@ -236,6 +257,7 @@ elif mode==4:
         listacategoriaveiculos(url)      
     
     #selfAddon.openSettings()
+elif mode== 10: mostralateral(url)
 
 xbmcplugin.endOfDirectory(int(sys.argv[1]))
 
