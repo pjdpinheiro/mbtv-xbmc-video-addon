@@ -1,4 +1,6 @@
 Changelog
+15.04.2014 v 0.0.5
+- Add context menu to display info about movie description and length
 14.04.2014 v 0.0.4
 - Corrected list of available video qualities to play
 - Corrected video name at player
