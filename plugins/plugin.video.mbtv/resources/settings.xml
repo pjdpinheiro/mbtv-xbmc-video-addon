@@ -2,6 +2,7 @@
 <settings>
    <category label="Main Settings">
 		<setting id="start" type="enum" label="How to start" values="Categories List|All Videos" default="0"/>
+		<setting id="newvideos" type="enum" label="Display Five New Videos First" values="With New Videos|No New Videos" default="0"/>
 		<setting id="format" type="enum" label="Play format" values="Try 1080p|Highest Original|Lowest Original|Ask" default="0"/>
 		<setting id="language" type="enum" label="Language" values="English|Deutsch" default="0"/>
    </category>
