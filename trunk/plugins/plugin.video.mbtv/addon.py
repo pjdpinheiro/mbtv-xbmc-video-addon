@@ -6,9 +6,11 @@ Todo
 - Acrescentar Lista de Reporter
 - Colocar os idiomas de acordo com o presente no Settings.xml
 - Permitir escolher o formato de reprodução
+- Colocar os cinco videos mais recentes no menu principal, juntamente com uma opção
+- Corrigir o Google Analytics, para permitir a contagem de todos os videos vistos (verificar)
 """
 
-import xbmc, xbmcaddon, xbmcplugin, xbmcgui, urllib, urllib2, sys, json, re, time, datetime, HTMLParser, os, binascii
+import xbmc, xbmcaddon, xbmcplugin, xbmcgui, urllib, urllib2, sys, json, re, time, datetime, HTMLParser, os, binascii, httplib
 local = xbmcaddon.Addon(id='plugin.video.mbtv')
 #print os.path.join( local.getAddonInfo('path'), 'resources', 'lib' )
 sys.path.append( os.path.join( local.getAddonInfo('path'), 'resources', 'lib' )) 
@@ -46,6 +48,14 @@ def playMedia(title, thumbnail, link, mediaType='Video') :
     li.setInfo(type=mediaType, infoLabels={ "Title": title })
     xbmcPlayer = xbmc.Player(xbmc.PLAYER_CORE_AUTO)
     xbmcPlayer.play(item=link, listitem=li)
+
+def exists(url):
+    host, path = urlparse.urlparse(url)[1:3]    # elems [1] and [2]
+    conn = httplib.HTTPConnection(host)
+    conn.request('HEAD', path)
+    response = conn.getresponse()
+    conn.close()
+    return response.status == 200
 
 def get_params():
     param=[]
@@ -110,7 +120,6 @@ def listaelementosReporter():
 
 def listaelementosfiltro(url):
     js= json_get(ficheiroglobal)
-    GA("none", url)
     for i in js["clips"]:
         if i["resortText"] == url:
             addDir(eliminatags(i["title"].encode('utf-8')),i["slug"],2, i["thumbnail_url_large"], False)
@@ -179,13 +188,15 @@ def reproduzficheiro(url):
         #urldovideoultra = urldovideo.replace("_720p", "_1080p")
         valorvideohd = urldovideo=js2["rendition"]["hd"]
         urldovideoultra = valorvideohd.replace("_720p", "_1080p")
+        if not exists(urldovideoultra):
+            urldovideoultra=js2["rendition"]["hd"]
     else:
         return
     playMedia(eliminatags(js2["title"].encode('utf-8')),js2["poster"]["embed"],urldovideoultra)
 
 
 #########################################################################################################
-#NAVEGAÇÃO                                                                                                #
+#NAVEGAÇÃO                                                                                              #
 #########################################################################################################
 
 
