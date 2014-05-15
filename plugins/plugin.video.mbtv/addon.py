@@ -51,7 +51,7 @@ def playMedia(title, thumbnail, link, mediaType='Video') :
 
 def exists(url):
     host, path = urlparse.urlparse(url)[1:3]    # elems [1] and [2]
-    conn = httplib.HTTPConnection(host)
+    conn = httplib.HTTPConnection(site)
     conn.request('HEAD', path)
     response = conn.getresponse()
     conn.close()
