@@ -2,7 +2,7 @@
 <addons>
 <addon id="plugin.video.mbtv"
        name="Mercedes-Benz TV"
-       version="0.0.05"
+       version="0.0.06"
        provider-name="papinhe">
     <requires>
         <import addon="xbmc.python" version="2.1.0"/>
