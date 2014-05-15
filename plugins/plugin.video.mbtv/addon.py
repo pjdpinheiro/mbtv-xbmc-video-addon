@@ -10,7 +10,7 @@ Todo
 - Corrigir o Google Analytics, para permitir a contagem de todos os videos vistos (verificar)
 """
 
-import xbmc, xbmcaddon, xbmcplugin, xbmcgui, urllib, urllib2, sys, json, re, time, datetime, HTMLParser, os, binascii, httplib
+import xbmc, xbmcaddon, xbmcplugin, xbmcgui, urllib, urllib2, sys, json, re, time, datetime, HTMLParser, os, binascii, httplib, urlparse
 local = xbmcaddon.Addon(id='plugin.video.mbtv')
 #print os.path.join( local.getAddonInfo('path'), 'resources', 'lib' )
 sys.path.append( os.path.join( local.getAddonInfo('path'), 'resources', 'lib' )) 
@@ -51,7 +51,7 @@ def playMedia(title, thumbnail, link, mediaType='Video') :
 
 def exists(url):
     host, path = urlparse.urlparse(url)[1:3]    # elems [1] and [2]
-    conn = httplib.HTTPConnection(site)
+    conn = httplib.HTTPConnection(host)
     conn.request('HEAD', path)
     response = conn.getresponse()
     conn.close()
@@ -186,10 +186,10 @@ def reproduzficheiro(url):
         urldovideoultra=js2["rendition"]["sd"]
     elif qualidade == 0:
         #urldovideoultra = urldovideo.replace("_720p", "_1080p")
-        valorvideohd = urldovideo=js2["rendition"]["hd"]
+        valorvideohd = js2["rendition"]["hd"]
         urldovideoultra = valorvideohd.replace("_720p", "_1080p")
         if not exists(urldovideoultra):
-            urldovideoultra=js2["rendition"]["hd"]
+            urldovideoultra=valorvideohd
     else:
         return
     playMedia(eliminatags(js2["title"].encode('utf-8')),js2["poster"]["embed"],urldovideoultra)
