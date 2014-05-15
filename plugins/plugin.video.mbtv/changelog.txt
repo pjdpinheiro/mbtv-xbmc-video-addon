@@ -1,4 +1,7 @@
 Changelog
+15.05.2014 v 0.0.6
+- Correct Google Analytics
+- When 1080p file don't exist, automatically use the hd version
 15.04.2014 v 0.0.5
 - Add context menu to display info about movie description and length
 14.04.2014 v 0.0.4
