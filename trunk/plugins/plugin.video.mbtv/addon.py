@@ -2,15 +2,13 @@
 # -*- coding: UTF-8 -*-
 """
 Todo
-- Acrescentar Listas de Veículos
-- Acrescentar Lista de Reporter
 - Colocar os idiomas de acordo com o presente no Settings.xml
-- Permitir escolher o formato de reprodução
+- Acrescentar miniaturas as imagens das categorias
 - Colocar os cinco videos mais recentes no menu principal, juntamente com uma opção
 - Corrigir o Google Analytics, para permitir a contagem de todos os videos vistos (verificar)
 """
 
-import xbmc, xbmcaddon, xbmcplugin, xbmcgui, urllib, urllib2, sys, json, re, time, datetime, HTMLParser, os, binascii, httplib, urlparse
+import xbmc, xbmcaddon, xbmcplugin, xbmcgui, urllib, urllib2, sys, json, re, time, datetime, HTMLParser, os, binascii, httplib
 local = xbmcaddon.Addon(id='plugin.video.mbtv')
 #print os.path.join( local.getAddonInfo('path'), 'resources', 'lib' )
 sys.path.append( os.path.join( local.getAddonInfo('path'), 'resources', 'lib' )) 
@@ -50,6 +48,8 @@ def playMedia(title, thumbnail, link, mediaType='Video') :
     xbmcPlayer.play(item=link, listitem=li)
 
 def exists(url):
+    from urlparse import urlparse
+    
     host, path = urlparse.urlparse(url)[1:3]    # elems [1] and [2]
     conn = httplib.HTTPConnection(host)
     conn.request('HEAD', path)
@@ -74,7 +74,6 @@ def get_params():
                 param[splitparams[0]]=splitparams[1]
     return param
     
-    
 def json_get(url):
     req = urllib2.Request(url)
     req.add_header('User-Agent', 'Mozilla/5.0 (Windows; U; Windows NT 5.1; en-GB; rv:1.9.0.3) Gecko/2008092417 Firefox/3.0.3')
@@ -82,16 +81,16 @@ def json_get(url):
     data = json.load(urllib2.urlopen(req))
     return data
 
-def eliminatags(valor):
-    texto = re.sub('<[^>]*>', '', valor)
-    return texto
-
 def json_post(data,url):
     data = json.dumps(data)
     req = urllib2.Request(url, data, {'Content-Type': 'application/json'})
     f = urllib2.urlopen(req)
     response = f.read()
     f.close()
+
+def eliminatags(valor):
+    texto = re.sub('<[^>]*>', '', valor)
+    return texto
 
 def addDir(name,url,mode,iconimage,pasta):
     u=sys.argv[0]+"?url="+urllib.quote_plus(url)+"&mode="+str(mode)+"&name="+urllib.quote_plus(name)
@@ -107,21 +106,13 @@ def addDir(name,url,mode,iconimage,pasta):
     ok=xbmcplugin.addDirectoryItem(handle=int(sys.argv[1]),url=u,listitem=liz,isFolder=pasta)
     return ok
 
-def listaelementostodos():
+def carregalistas(url = "", filtro = "resortText", tudo = False):
+# lista os valores obtidos a partir da categoria "clips" do json geral
+# requer url e filtro (este é o valor que pretendemos obter da categoria "clips")
+# caso exista o tudo = True, devolve a listagem completa de ficheiros
     js= json_get(ficheiroglobal)
     for i in js["clips"]:
-        addDir(eliminatags(i["title"].encode('utf-8')),i["slug"],2, i["thumbnail_url_large"], False)
-
-def listaelementosReporter():
-    js= json_get(ficheiroglobal)
-    for i in js["clips"]:
-        if i["reporter"] == True:
-            addDir(eliminatags(i["title"].encode('utf-8')),i["slug"],2, i["thumbnail_url_large"], False)
-
-def listaelementosfiltro(url):
-    js= json_get(ficheiroglobal)
-    for i in js["clips"]:
-        if i["resortText"] == url:
+        if i[filtro] == url or tudo == True:
             addDir(eliminatags(i["title"].encode('utf-8')),i["slug"],2, i["thumbnail_url_large"], False)
 
 def listaelementosvehicles():
@@ -129,18 +120,6 @@ def listaelementosvehicles():
     addDir("All","All",4,addonfolder+'/fanart.jpg',True)
     for i in js["filter"]["series"]:
         addDir(i["en"],i["en"],4,addonfolder + '/fanart.jpg',True)
-
-def listatodosveiculos():
-    js= json_get(ficheiroglobal)
-    for i in js["clips"]:
-        if i["resortText"] == "Vehicles":
-            addDir(eliminatags(i["title"].encode('utf-8')),i["slug"],2, i["thumbnail_url_large"], False)
-
-def listacategoriaveiculos(url):
-    js= json_get(ficheiroglobal)
-    for i in js["clips"]:
-        if i["seriesText"] == url:
-            addDir(eliminatags(i["title"].encode('utf-8')),i["slug"],2, i["thumbnail_url_large"], False)
 
 def listaelementoinicial():
     reporter = False
@@ -252,20 +231,20 @@ elif mode==2:
 elif mode==3:
 #Ou carrega o ficheiro ou carrega as categorias "all"- todos os videos (categoria All), url os videos da categoria
     if url == "All":
-        listaelementostodos()
+        carregalistas("resortText","resortText",True)
     elif url == "Vehicles":
         listaelementosvehicles()
     else: 
-        listaelementosfiltro(url) 
+        carregalistas(url, "resortText") 
 
 elif mode==4:
 #Carrega lista referente ao Reporter
     if url == "All":
-        listatodosveiculos()
+        carregalistas("Vehicles", "resortText")
     elif url == "Reporter":
-        listaelementosReporter()
+        carregalistas(True, "reporter")
     else:
-        listacategoriaveiculos(url)      
+        carregalistas(url,"seriesText")      
     
     #selfAddon.openSettings()
 elif mode== 10: mostralateral(url)

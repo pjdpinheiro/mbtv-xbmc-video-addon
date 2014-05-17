@@ -1,6 +1,8 @@
 Changelog
+17.05.2014 v 0.0.8
+- Code cleanup
 15.05.2014 v 0.0.7
-- small bugfix
+- small bugfix corrected with the file existence
 15.05.2014 v 0.0.6
 - Correct Google Analytics
 - When 1080p file don't exist, automatically use the hd version
