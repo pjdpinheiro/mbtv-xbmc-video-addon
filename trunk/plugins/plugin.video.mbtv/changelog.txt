@@ -1,4 +1,6 @@
 Changelog
+20.05.2014 v0.0.9
+- Another try to correct the file existence module (Try 1080p function)
 17.05.2014 v 0.0.8
 - Code cleanup
 15.05.2014 v 0.0.7
