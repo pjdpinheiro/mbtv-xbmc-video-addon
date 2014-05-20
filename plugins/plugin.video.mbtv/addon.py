@@ -50,7 +50,7 @@ def playMedia(title, thumbnail, link, mediaType='Video') :
 def exists(url):
     from urlparse import urlparse
     
-    host, path = urlparse.urlparse(url)[1:3]    # elems [1] and [2]
+    host, path = urlparse(url)[1:3]    # elems [1] and [2]
     conn = httplib.HTTPConnection(host)
     conn.request('HEAD', path)
     response = conn.getresponse()
@@ -220,7 +220,7 @@ if mode==None or url==None or len(url)<1:
     else:
         listaelementoinicial()
 elif mode==1:
-#Não utilizado
+    #Não utilizado
     #listar_videos(url)
     print url
 elif mode==2:
