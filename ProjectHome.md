@@ -1,0 +1,1 @@
+XBMC Plugin that allows to play Mercedes-Benz TV website videos.
